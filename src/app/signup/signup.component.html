@@ -1,1 +1,118 @@
-<p>signup works!</p>
+<div class="i2-signup">
+  <mat-card class="i2-signup-card">
+    <mat-card-header class="i2-center">
+      <mat-card-title class="i2-center">Signup</mat-card-title>
+      <mat-card-subtitle class="i2-center">Property Investment</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content class="i2-signup-content">
+      <form class="i2-signup-form" [formGroup]="signupForm">
+        <div class="i2-full-width i2-user-name">
+          <div>
+            @if (signupForm.controls['firstName'].dirty && signupForm.controls['firstName'].invalid) {
+              @if (signupForm.controls['firstName'].hasError('required')) {
+                <mat-error>Required.</mat-error>
+              }
+              @else {
+                <mat-error>Less than {{maxLenForFirstName}} characters.</mat-error>
+              }
+            }
+            <mat-form-field class="i2-full-width">
+              <mat-label>First Name</mat-label>
+              <input type="text" matInput formControlName="firstName" />
+            </mat-form-field>
+          </div>
+          <div>
+            @if (signupForm.controls['middleName'].dirty && signupForm.controls['middleName'].invalid) {
+              <mat-error>Less than {{maxLenForMiddleName}} characters.</mat-error>
+            }
+            <mat-form-field class="i2-full-width">
+              <mat-label>Middle Name</mat-label>
+              <input type="text" matInput formControlName="middleName" />
+            </mat-form-field>
+          </div>
+          <div>
+            @if (signupForm.controls['lastName'].dirty && signupForm.controls['lastName'].invalid) {
+              @if (signupForm.controls['lastName'].hasError('required')) {
+                <mat-error>Required.</mat-error>
+              }
+              @else {
+                <mat-error>Less than {{maxLenForLastName}} characters.</mat-error>
+              }
+            }
+            <mat-form-field class="i2-full-width">
+              <mat-label>Last Name</mat-label>
+              <input type="text" matInput formControlName="lastName" />
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="i2-full-width" class="i2-half-half">
+          <div>
+            @if (signupForm.controls['email'].dirty && signupForm.controls['email'].invalid) {
+              @if (signupForm.controls['email'].hasError('required')) {
+                <mat-error>Required.</mat-error>
+              }
+              @else {
+                <mat-error>Valid email pattern.</mat-error>
+              }
+            }
+            <mat-form-field class="i2-full-width">
+              <mat-label>Email</mat-label>
+              <input type="email" matInput formControlName="email" />
+            </mat-form-field>
+          </div>
+          <div>
+            @if (signupForm.controls['phone'].dirty && signupForm.controls['phone'].invalid) {
+              <mat-error>Less than {{maxLenForPhone}} characters.</mat-error>
+            }
+            <mat-form-field class="i2-full-width">
+              <mat-label>Phone</mat-label>
+              <input type="tel" matInput formControlName="phone" placeholder="647-234-1234" />
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="i2-full-width" class="i2-half-half">
+          <div>
+            @if (signupForm.controls['password1'].dirty && signupForm.controls['password1'].invalid) {
+              @if (signupForm.controls['password1'].hasError('required')) {
+                <mat-error>Required.</mat-error>
+              }
+              @else {
+                <mat-error>More than {{minLenForPassword}} characters.</mat-error>
+              }
+            }
+            <mat-form-field class="i2-full-width">
+              <mat-label>Password</mat-label>
+              <input type="password" matInput formControlName="password1" />
+            </mat-form-field>
+          </div>
+          <div>
+            @if (signupForm.controls['password2'].dirty && signupForm.controls['password2'].invalid) {
+              @if (signupForm.controls['password2'].hasError('required')) {
+                <mat-error>Required.</mat-error>
+              } @else {
+                <mat-error>More than {{minLenForPassword}} characters.</mat-error>
+              }
+            }
+            @if (signupForm.controls['password1'].valid && signupForm.controls['password2'].valid) {
+              @if (signupForm.controls['password1'].value != signupForm.controls['password2'].value) {
+                <mat-error>Passwords must match</mat-error>
+              }
+            }
+            <mat-form-field class="i2-full-width">
+              <mat-label>Re-type Password</mat-label>
+              <input type="password" matInput formControlName="password2" />
+            </mat-form-field>
+          </div>
+        </div>
+      </form>
+    </mat-card-content>
+    <mat-card-actions class="i2-actions">
+      <button mat-flat-button color="primary"
+              [disabled]="!isValidForSignup()"
+              (click)="tryToSignup()"
+      >Next</button>
+      <button mat-flat-button color="warn" (click)="signupForm.reset()">Reset</button>
+      <button mat-stroked-button (click)="goBackToLogin()">Go Back</button>
+    </mat-card-actions>
+  </mat-card>
+</div>

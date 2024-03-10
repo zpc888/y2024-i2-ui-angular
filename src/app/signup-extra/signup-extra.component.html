@@ -1,0 +1,227 @@
+<div class="i2-signup">
+  <mat-card class="i2-signup-card">
+    <mat-card-header class="i2-center">
+      <mat-card-title class="i2-center">Signup</mat-card-title>
+      <mat-card-subtitle class="i2-center">Property Investment</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content class="i2-signup-content">
+      <form class="i2-signup-form" [formGroup]="signupForm">
+        <section class="i2-user" formGroupName="user">
+          <div class="i2-full-width i2-user-name">
+            <div>
+              @if (userForm.controls['firstName'].dirty && userForm.controls['firstName'].invalid) {
+                @if (userForm.controls['firstName'].hasError('required')) {
+                  <mat-error>Required.</mat-error>
+                }
+                @else {
+                  <mat-error>Less than {{maxLenForFirstName}} characters.</mat-error>
+                }
+              }
+              <mat-form-field class="i2-full-width">
+                <mat-label>First Name</mat-label>
+                <input type="text" matInput formControlName="firstName" />
+              </mat-form-field>
+            </div>
+            <div>
+              @if (userForm.controls['middleName'].dirty && userForm.controls['middleName'].invalid) {
+                <mat-error>Less than {{maxLenForMiddleName}} characters.</mat-error>
+              }
+              <mat-form-field class="i2-full-width">
+                <mat-label>Middle Name</mat-label>
+                <input type="text" matInput formControlName="middleName" />
+              </mat-form-field>
+            </div>
+            <div>
+              @if (userForm.controls['lastName'].dirty && userForm.controls['lastName'].invalid) {
+                @if (userForm.controls['lastName'].hasError('required')) {
+                  <mat-error>Required.</mat-error>
+                }
+                @else {
+                  <mat-error>Less than {{maxLenForLastName}} characters.</mat-error>
+                }
+              }
+              <mat-form-field class="i2-full-width">
+                <mat-label>Last Name</mat-label>
+                <input type="text" matInput formControlName="lastName" />
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="i2-full-width" class="i2-half-half">
+            <div>
+              @if (userForm.controls['email'].dirty && userForm.controls['email'].invalid) {
+                @if (userForm.controls['email'].hasError('required')) {
+                  <mat-error>Required.</mat-error>
+                }
+                @else {
+                  <mat-error>Valid email pattern.</mat-error>
+                }
+              }
+              <mat-form-field class="i2-full-width">
+                <mat-label>Email</mat-label>
+                <input type="email" matInput formControlName="email" />
+              </mat-form-field>
+            </div>
+            <div>
+              @if (userForm.controls['phone'].dirty && userForm.controls['phone'].invalid) {
+                <mat-error>Less than {{maxLenForPhone}} characters.</mat-error>
+              }
+              <mat-form-field class="i2-full-width">
+                <mat-label>Phone</mat-label>
+                <input type="tel" matInput formControlName="phone" placeholder="647-234-1234" />
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="i2-full-width" class="i2-half-half">
+            <div>
+              @if (userForm.controls['password1'].dirty && userForm.controls['password1'].invalid) {
+                @if (userForm.controls['password1'].hasError('required')) {
+                  <mat-error>Required.</mat-error>
+                }
+                @else {
+                  <mat-error>More than {{minLenForPassword}} characters.</mat-error>
+                }
+              }
+              <mat-form-field class="i2-full-width">
+                <mat-label>Password</mat-label>
+                <input type="password" matInput formControlName="password1" />
+              </mat-form-field>
+            </div>
+            <div>
+              @if (userForm.controls['password2'].dirty && userForm.controls['password2'].invalid) {
+                @if (userForm.controls['password2'].hasError('required')) {
+                  <mat-error>Required.</mat-error>
+                } @else {
+                  <mat-error>More than {{minLenForPassword}} characters.</mat-error>
+                }
+              }
+              @if (userForm.controls['password1'].valid && userForm.controls['password2'].valid) {
+                @if (userForm.controls['password1'].value != userForm.controls['password2'].value) {
+                  <mat-error>Passwords must match</mat-error>
+                }
+              }
+              <mat-form-field class="i2-full-width">
+                <mat-label>Re-type Password</mat-label>
+                <input type="password" matInput formControlName="password2" />
+              </mat-form-field>
+            </div>
+          </div>
+        </section>
+        <div class="i2-choice-container i2-full-width">
+          <div>
+            Address Information
+          </div>
+          <div>
+            <mat-checkbox formControlName="choiceToProvideAddressLater" (change)="handleTellAddressLaterChange($event)">
+              Prefer to provider later
+            </mat-checkbox>
+          </div>
+        </div>
+        <section class="i2-address" formGroupName="address" #addressRef>
+          @if (addressForm.controls['line1'].dirty && addressForm.controls['line1'].invalid) {
+            @if (addressForm.controls['line1'].hasError('required')) {
+              <mat-error>Required.</mat-error>
+            } @else {
+              <mat-error>Less than {{maxLenForAddressLine1}} characters.</mat-error>
+            }
+          }
+          <mat-form-field class="i2-full-width">
+            <mat-label>Address Line 1</mat-label>
+            <input type="text" matInput formControlName="line1" />
+          </mat-form-field>
+          @if (addressForm.controls['line2'].dirty && addressForm.controls['line2'].invalid) {
+            <mat-error>Less than {{maxLenForAddressLine2}} characters.</mat-error>
+          }
+          <mat-form-field class="i2-full-width">
+            <mat-label>Address Line 2</mat-label>
+            <input type="text" matInput formControlName="line2" />
+          </mat-form-field>
+          <div class="i2-full-width i2-city-province-zip">
+            <div>
+              @if (addressForm.controls['city'].dirty && addressForm.controls['city'].invalid) {
+                @if (addressForm.controls['city'].hasError('required')) {
+                  <mat-error>Required.</mat-error>
+                } @else {
+                  <mat-error>Less than {{maxLenForCity}} characters.</mat-error>
+                }
+              }
+              <mat-form-field class="i2-full-width">
+                <mat-label>City</mat-label>
+                <input type="text" matInput formControlName="city" />
+              </mat-form-field>
+            </div>
+            <div>
+              @if (addressForm.controls['province'].dirty && addressForm.controls['province'].invalid) {
+                @if (addressForm.controls['province'].hasError('required')) {
+                  <mat-error>Required.</mat-error>
+                } @else {
+                  <mat-error>Less than {{maxLenForProvince}} characters.</mat-error>
+                }
+              }
+              <mat-form-field class="i2-full-width">
+                <mat-label>Province</mat-label>
+                <mat-select formControlName="province">
+                  @for (p of canadaProvinces; track p) {
+                    <mat-option [value]="p.code">{{p.viewValue}}</mat-option>
+                  }
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div>
+              @if (addressForm.controls['postalCode'].dirty && addressForm.controls['postalCode'].invalid) {
+                @if (addressForm.controls['postalCode'].hasError('required')) {
+                  <mat-error>Required.</mat-error>
+                } @else {
+                  <mat-error>E.g. M3K 2L5</mat-error>
+                }
+              }
+              <mat-form-field class="i2-full-width">
+                <mat-label>Postal Code</mat-label>
+                <input type="text" matInput formControlName="postalCode" />
+              </mat-form-field>
+            </div>
+          </div>
+        </section>
+
+        <div class="i2-choice-container i2-full-width">
+          <div>
+            Budget Range
+          </div>
+          <div>
+            <mat-checkbox formControlName="choiceToProvideBudgetLater" (change)="handleTellBudgetLaterChange($event)">
+              Prefer to provider later
+            </mat-checkbox>
+          </div>
+        </div>
+        <section class="i2-budget" formGroupName="budget" #budgetRef>
+          <div>
+            <mat-radio-group formControlName="budgetRange">
+              @if (budgetForm.controls['budgetRange'].touched && budgetForm.controls['budgetRange'].invalid) {
+                <mat-error>Required.</mat-error>
+              }
+              <div class="i2-half-half">
+                <mat-radio-button class="i2-budget-choice" value="btw30and50k">30 - 50K</mat-radio-button>
+                <mat-radio-button class="i2-budget-choice" value="btw150and200k">150 - 200K</mat-radio-button>
+              </div>
+              <div class="i2-half-half">
+                <mat-radio-button class="i2-budget-choice" value="btw50and100k">50 - 100K</mat-radio-button>
+                <mat-radio-button class="i2-budget-choice" value="moreThan200k">200k+</mat-radio-button>
+              </div>
+              <div class="i2-half-half">
+                <mat-radio-button class="i2-budget-choice" value="btw100and150k">100 - 150K</mat-radio-button>
+                <div>&nbsp;</div>
+              </div>
+            </mat-radio-group>
+          </div>
+        </section>
+      </form>
+    </mat-card-content>
+    <mat-card-actions class="i2-actions">
+      <button mat-flat-button color="primary"
+              [disabled]="!isValidForSignup()"
+              (click)="tryToSignup()"
+      >Next</button>
+      <button mat-flat-button color="warn" (click)="signupForm.reset()">Reset</button>
+      <button mat-stroked-button (click)="goBackToLogin()">Go Back</button>
+    </mat-card-actions>
+  </mat-card>
+</div>
