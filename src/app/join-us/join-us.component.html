@@ -1,0 +1,82 @@
+<app-frag-layout>
+  <div headerInfo class="i2-join-us-header">
+    Join today to begin your real estate investment journey.
+  </div>
+  <section class="i2-body">
+    <div class="i2-join-us-form">
+      <form class="i2-sign-up-form">
+        <mat-form-field class="i2-full-width">
+          <mat-label>Email</mat-label>
+          <input matInput
+                 placeholder="Email Address"
+                 type="email"
+                 [formControl]="emailControl"
+                 required
+          />
+          @if (emailControl.hasError('email') && !emailControl.hasError('required')) {
+            <mat-error>Please enter a valid email address</mat-error>
+          }
+          @if (emailControl.hasError('required')) {
+            <mat-error>Email is <strong>required</strong></mat-error>
+          }
+        </mat-form-field>
+        <mat-form-field class="i2-full-width">
+          <mat-label>Password</mat-label>
+          <input matInput
+                 [type]="hidePswd1 ? 'password' : 'text'"
+                 placeholder="Password"
+                 [formControl]="passwordControl1"
+                 required
+          />
+          <mat-icon matSuffix (click)="hidePswd1 = !hidePswd1">
+            {{hidePswd1 ? 'visibility_off' : 'visibility'}}
+          </mat-icon>
+          @if (passwordControl1.hasError('minlength') && !passwordControl1.hasError('required')) {
+            <mat-error>Password must be at least {{minLenForPassword}} characters</mat-error>
+          }
+          @if (passwordControl1.hasError('required')) {
+            <mat-error>Password is <strong>required</strong></mat-error>
+          }
+        </mat-form-field>
+        <mat-form-field class="i2-full-width">
+          <mat-label>Password Confirmation</mat-label>
+          <input matInput
+                 [type]="hidePswd2 ? 'password' : 'text'"
+                 placeholder="Password Confirmation"
+                 [formControl]="passwordControl2"
+                 required
+          />
+          <mat-icon matSuffix (click)="hidePswd2 = !hidePswd2">
+            {{hidePswd2 ? 'visibility_off' : 'visibility'}}
+          </mat-icon>
+          @if (passwordControl2.hasError('minlength') && !passwordControl2.hasError('required')) {
+            <mat-error>Password must be at least {{minLenForPassword}} characters</mat-error>
+          }
+          @if (passwordControl2.hasError('required')) {
+            <mat-error>Password is <strong>required</strong></mat-error>
+          }
+<!--
+          @if (passwordControl1.valid && passwordControl2.valid && passwordControl1.value !== passwordControl2.value) {
+            <mat-error>Passwords must match</mat-error>
+          }
+-->
+          @if (passwordControl1.valid && passwordControl2.valid) {
+            @if (passwordControl1.value !== passwordControl2.value) {
+              <mat-error>Passwords must match</mat-error>
+            }
+          }
+        </mat-form-field>
+        <div class="i2-join-us-action">
+          <button mat-flat-button color="warn"
+                  [disabled]="emailControl.status === 'INVALID' || passwordControl1.status === 'INVALID' || passwordControl1.value !== passwordControl2.value"
+                  (click)="createAccount()"
+          >Create Account</button>
+        </div>
+      </form>
+    </div>
+    <div class="i2-new-user">
+      <span>Already have an account? </span>
+      <a routerLink="/login">Sign in here</a>
+    </div>
+  </section>
+</app-frag-layout>

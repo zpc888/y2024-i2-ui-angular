@@ -1,0 +1,112 @@
+<div class="i2-body">
+  <section class="i2-header">
+    <div class="i2-head1">
+      Property Investment
+    </div>
+    <div class="i2-head2">
+      <mat-icon *ngIf="userId != null" aria-hidden="false" aria-label="User"
+                [matMenuTriggerFor]="userMenu"
+                fontIcon="account_circle"></mat-icon>
+      <mat-icon *ngIf="userId == null" aria-hidden="false" aria-label="Guest"
+                [matMenuTriggerFor]="guestMenu"
+                fontIcon="no_accounts"></mat-icon>
+      <mat-menu #userMenu="matMenu">
+        <button mat-menu-item (click)="goToLogout()">
+          <mat-icon>logout</mat-icon>
+          <span>Log off</span>
+        </button>
+        <button mat-menu-item (click)="goToProfile()">
+          <mat-icon>person</mat-icon>
+          <span>User Profile</span>
+        </button>
+        <mat-divider></mat-divider>
+        <button mat-menu-item (click)="goToInvestment()">
+          <mat-icon>finance_chip</mat-icon>
+          <span>My Investments</span>
+        </button>
+      </mat-menu>
+      <mat-menu #guestMenu="matMenu">
+        <button mat-menu-item (click)="goToLogin()">
+          <mat-icon>login</mat-icon>
+          <span>Login</span>
+        </button>
+        <button mat-menu-item (click)="goToSignup()">
+          <mat-icon>how_to_reg</mat-icon>
+          <span>Registration</span>
+        </button>
+      </mat-menu>
+    </div>
+  </section>
+  <section class="i2-content-container">
+    <mat-card>
+      <mat-card-header class="i2-card-header">
+        <mat-card-title class="i2-card-title">
+          <span (click)="criteria.style.display = criteria.style.display === 'none' ? 'block' : 'none'">
+            Search Criteria
+          </span>
+          <span class="i2-icon">
+            @if (criteria && criteria.style.display === 'none') {
+              <mat-icon aria-hidden="false" aria-label="expand" fontIcon="chevron_right"
+                (click)="criteria.style.display = 'block'"></mat-icon>
+            } @else {
+              <mat-icon aria-hidden="false" aria-label="collapse" fontIcon="expand_less"
+                        (click)="criteria.style.display = 'none'"></mat-icon>
+            }
+          </span>
+        </mat-card-title>
+        <mat-card-subtitle>{{previousSearchCriteriaStatement}}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content #criteria class="i2-search-criteria">
+        <div class="i2-search-criteria-nested">
+          <mat-checkbox class="i2-search-via-type" (click)="toggleSearchViaType()" [(ngModel)]="selectViaType">Type</mat-checkbox>
+          @if (selectViaType) {
+              <mat-radio-group class="i2-input" aria-label="Select Seach Type" [(ngModel)]="oppType">
+                <mat-radio-button value="build-my-own-house">Build My Own House</mat-radio-button>
+                <mat-radio-button value="pre-construction">Pre-Construction</mat-radio-button>
+              </mat-radio-group>
+          }
+        </div>
+        <div class="i2-search-criteria-nested">
+          <mat-checkbox class="i2-search-via-range" (click)="toggleSearchViaRange()" [(ngModel)]="selectViaRange">Investment Range</mat-checkbox>
+          @if (selectViaRange) {
+            <div class="i2-input">
+              <mat-form-field>
+                <mat-label>Min Amount (in K)</mat-label>
+                <input matInput type="number" [(ngModel)]="oppRangeMin" />
+              </mat-form-field>
+              <mat-form-field>
+                <mat-label>Max Amount (in K)</mat-label>
+                <input matInput type="number" [(ngModel)]="oppRangeMax" />
+              </mat-form-field>
+            </div>
+          }
+        </div>
+        <mat-checkbox class="i2-search-all" (click)="toggleSearchAll()" [(ngModel)]="selectAll">All</mat-checkbox>
+        <div class="i2-search-criteria-nested">
+          <div>&nbsp;</div>
+          <div class="i2-search-actions">
+            <button mat-raised-button color="primary" [disabled]="isNewSearchDisabled" (click)="startNewSearch();criteria.style.display='none';">Search</button>
+            <button mat-raised-button (click)="backToPreviousSearch();criteria.style.display='none';">Cancel</button>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    @if (opportunities) {
+      <div class="i2-search-result">
+        @if (opportunities.length === 0) {
+          <div class="i2-warning">No result found !</div>
+        }
+        @else {
+          <app-opp-summary *ngFor="let op of opportunities"
+                           [opp]="op"></app-opp-summary>
+        }
+      </div>
+    }
+  </section>
+  <section class="i2-footer">
+    <div class="i2-contact">
+      <span class="i2-contact-label">Contact Info: </span>
+      <span>admin&#64;propertyinvestment.ca</span>
+    </div>
+  </section>
+</div>

@@ -1,0 +1,53 @@
+.i2-body {
+  margin-top: 5px;
+  border-top: 1px solid #D9D9D9;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+.i2-title {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  font-size: 1.8rem;
+}
+.i2-paragraph {
+  padding-bottom: 20px;
+}
+
+.i2-paragraph2 {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+  column-gap: 40px;
+}
+
+.i2-hiw-cites {
+  position: relative;
+  width: 100%;
+}
+
+.i2-hiw-cite {
+  position: relative;
+  width: 500px;
+}
+
+.i2-hiw-cite:nth-child(even) {
+  margin-top: 50px;
+  float: right;
+}
+
+.i2-cite-text {
+  font-style: italic;
+}
+
+.i2-cite-author {
+  float: right;
+  color: #4ea2bf;
+}
+
+.i2-img {
+  position: relative;
+  left: -20px;
+  width: 400px;
+  height: 200px;
+  object-fit: cover;
+}

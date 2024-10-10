@@ -1,0 +1,25 @@
+<section class="i2-home-header">
+  <div class="i2-home-header-row1">
+    <button mat-flat-button color="primary"
+            (click)="signIn()"
+    >Sign in</button>
+    <button mat-flat-button color="warn"
+            (click)="joinUs()"
+    >Join Us</button>
+  </div>
+  <div class="i2-home-header-row2">
+    <button mat-button
+            [color]="from === 'howItWorks' ? 'warn' : ''"
+            (click)="howItWorks()"
+    >How it works</button>
+    <button mat-button
+            [color]="from === 'preconstructionOpportunity' ? 'warn' : ''"
+    >Pre-Construction Opportunities</button>
+    <button mat-button
+            [color]="from === 'flippingOpportunity' ? 'warn' : ''"
+    >Flipping Opportunities</button>
+    <button mat-button
+            [color]="from === 'aboutUs' ? 'warn' : ''"
+    >About Us</button>
+  </div>
+</section>

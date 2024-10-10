@@ -1,0 +1,25 @@
+.i2-home-pic {
+  height: 200px;
+  width: 100%;
+}
+
+.i2-img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+.i2-home-feature {
+  font-size: 3em;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+.i2-home-actions {
+  padding-right: 30px;
+  display: flex;
+  flex-direction: row;
+  column-gap: 30px;
+  justify-content: flex-end;
+}
+

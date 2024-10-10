@@ -1,0 +1,61 @@
+.i2-opp-panel {
+  width: 400px;
+  height: 460px;
+  border: 1px solid #e5e5e5;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  background-color: #e5e5e5;
+}
+.i2-img {
+  width: 400px;
+  height: 300px;
+}
+
+.i2-img > img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  /*object-fit: contain;*/
+}
+.i2-info {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  row-gap: 6px;
+}
+.i2-share-info {
+  display: grid;
+  grid-template-columns: 320px auto;
+  align-items: center;
+  justify-content: space-between;
+}
+.i2-my-invest {
+  position: relative;
+  display: inline-block;
+  padding: 2px;
+  border: 1px solid lightblue;
+  background-color: lightblue;
+  border-radius: 50%;
+}
+.i2-my-invest .i2-tooltip {
+  visibility: hidden;
+  width: 200px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 4px;
+  padding: 2px 0;
+
+  position: absolute;
+  z-index: 9;
+  top: -30px;
+  right: -10px;
+}
+.i2-my-invest:hover .i2-tooltip {
+  visibility: visible;
+}
+

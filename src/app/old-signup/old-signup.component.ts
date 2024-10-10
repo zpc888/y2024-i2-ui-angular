@@ -6,9 +6,9 @@ import {MatFormFieldModule, MatLabel} from "@angular/material/form-field";
 import {FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {MatInputModule} from "@angular/material/input";
 import {MatSelectModule} from "@angular/material/select";
-import {MatCheckboxChange, MatCheckboxModule} from "@angular/material/checkbox";
-import {MatRadioModule} from "@angular/material/radio";
 import {Router} from "@angular/router";
+import {UserAccountService} from "../user-account.service";
+import {UserAccount} from "../user-account";
 
 interface Province {
   code: string;
@@ -16,7 +16,7 @@ interface Province {
 }
 
 @Component({
-  selector: 'app-signup',
+  selector: 'app-old-signup',
   standalone: true,
   imports: [
     MatCardModule,
@@ -27,14 +27,12 @@ interface Province {
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
-    MatCheckboxModule,
-    MatRadioModule,
     ReactiveFormsModule,
   ],
-  templateUrl: './signup.component.html',
-  styleUrl: './signup.component.css'
+  templateUrl: './old-signup.component.html',
+  styleUrl: './old-signup.component.css'
 })
-export class SignupComponent implements OnInit {
+export class OldSignupComponent implements OnInit {
   maxLenForFirstName = 40;
   maxLenForMiddleName = 10;
   maxLenForLastName = 40;
@@ -44,6 +42,7 @@ export class SignupComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
+    private userAccountService: UserAccountService,
     private router: Router
   ) {
     this.signupForm = this.formBuilder.group({
@@ -75,8 +74,18 @@ export class SignupComponent implements OnInit {
 
   tryToSignup() {
     if (this.isValidForSignup()) {
-      this.router.navigate(['/signup-step2']).then(r => {
-        console.log('Go back to next step of signup: ' + (r ? 'Ok' : 'Failed'));
+      const user: UserAccount = {
+        firstName: this.signupForm.controls['firstName'].value,
+        middleName: this.signupForm.controls['middleName'].value,
+        lastName: this.signupForm.controls['lastName'].value,
+        email: this.signupForm.controls['email'].value,
+        phone: this.signupForm.controls['phone'].value,
+        password: this.signupForm.controls['password1'].value,
+      };
+      this.userAccountService.register(user).subscribe((u: UserAccount) => {
+        this.router.navigate(['/signup-step2', u.id]).then(r => {
+          console.log('Go back to next step of signup: ' + (r ? 'Ok' : 'Failed'));
+        });
       });
     } else {
       console.log('Invalid signup');

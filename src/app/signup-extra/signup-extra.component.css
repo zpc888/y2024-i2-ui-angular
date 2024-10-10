@@ -42,7 +42,8 @@
 
 .i2-actions {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
+  padding-bottom: 20px;
 }
 
 .i2-signup-content {
@@ -80,12 +81,4 @@
   grid-template-columns: 35% 40% 23%;
   grid-column-gap: 10px;
   align-items: flex-end;
-}
-
-.i2-login-action {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  justify-content: center;
-  justify-self: center;
-  align-items: center;
 }

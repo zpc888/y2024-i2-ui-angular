@@ -9,6 +9,8 @@ import {MatSelectModule} from "@angular/material/select";
 import {MatCheckboxChange, MatCheckboxModule} from "@angular/material/checkbox";
 import {MatRadioModule} from "@angular/material/radio";
 import {Router} from "@angular/router";
+import {UserProfile} from "../user-account";
+import {UserAccountService} from "../user-account.service";
 
 interface Province {
   code: string;
@@ -35,17 +37,11 @@ interface Province {
   styleUrl: './signup-extra.component.css'
 })
 export class SignupExtraComponent implements OnInit {
-  maxLenForFirstName = 40;
-  maxLenForMiddleName = 10;
-  maxLenForLastName = 40;
-  maxLenForPhone = 20;
-  minLenForPassword = 8;
   maxLenForAddressLine1 = 40;
   maxLenForAddressLine2 = 40;
   maxLenForCity = 40;
   maxLenForProvince = 2;
   signupForm: FormGroup;
-  userForm: FormGroup;
   addressForm: FormGroup;
   budgetForm: FormGroup;
   @ViewChild('addressRef') addressRef?: ElementRef;
@@ -69,34 +65,20 @@ export class SignupExtraComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
+    private userAccountService: UserAccountService,
     private router: Router
   ) {
-    this.userForm = this.formBuilder.group({
-      firstName: new FormControl('', [Validators.required, Validators.maxLength(this.maxLenForFirstName)]),
-      middleName: new FormControl('', [Validators.maxLength(this.maxLenForMiddleName)]),
-      lastName: new FormControl('', [Validators.required, Validators.maxLength(this.maxLenForLastName)]),
-      email: new FormControl('', [Validators.required, Validators.email]),
-      phone: new FormControl('', [Validators.maxLength(this.maxLenForPhone)]),
-      password1: new FormControl('', [Validators.required, Validators.minLength(this.minLenForPassword)]),
-      password2: new FormControl('', [Validators.required, Validators.minLength(this.minLenForPassword)]),
-    });
     this.addressForm = this.formBuilder.group({
       line1: new FormControl('', [Validators.required, Validators.maxLength(this.maxLenForAddressLine1)]),
       line2: new FormControl('', [Validators.maxLength(this.maxLenForAddressLine2)]),
       city: new FormControl('', [Validators.required, Validators.maxLength(this.maxLenForCity)]),
       province: new FormControl('', [Validators.required, Validators.maxLength(this.maxLenForProvince)]),
-      postalCode: new FormControl('', [Validators.required, Validators.pattern("[A-Z][0-9][A-Z] ?[0-9][A-Z][0-9]")]),
+      postalCode: new FormControl('', [Validators.required, Validators.pattern("[A-Za-z][0-9][A-Za-z] ?[0-9][A-Za-z][0-9]")]),
     });
     this.budgetForm = this.formBuilder.group({
-      budgetRange: new FormControl(''),
-      btw30and50k: new FormControl(''),
-      btw50and100k: new FormControl(''),
-      btw100and150k: new FormControl(''),
-      btw150and200k: new FormControl(''),
-      moreThan200k: new FormControl(''),
+      budgetRange: new FormControl('', [Validators.required]),
     });
     this.signupForm = this.formBuilder.group({
-      user: this.userForm,
       choiceToProvideAddressLater: new FormControl(''),
       address: this.addressForm,
       choiceToProvideBudgetLater: new FormControl(''),
@@ -115,16 +97,13 @@ export class SignupExtraComponent implements OnInit {
     this.budgetRef!.nativeElement.style.display = event.checked ? 'none' : 'block';
   }
 
-  isValidForSignup(): boolean {
-    if (this.userForm.invalid) {
-      return false;
-    }
-    const pswd1 = this.userForm.controls['password1'].value;
-    const pswd2 = this.userForm.controls['password2'].value;
-    if (pswd1 !== pswd2) {
-      return false;
-    }
+  resetSignupForm() {
+    this.signupForm.reset();
+    this.addressRef!.nativeElement.style.display = 'block';
+    this.budgetRef!.nativeElement.style.display = 'block';
+  }
 
+  isValidForSignup(): boolean {
     const tellAddressLater = this.signupForm.controls['choiceToProvideAddressLater'].value;
     if (!tellAddressLater && this.addressForm.invalid) {
       return false;
@@ -138,9 +117,61 @@ export class SignupExtraComponent implements OnInit {
     return true;
   }
 
+  handlePostalCodeFormat() {
+    const ctrl = this.addressForm.controls['postalCode'];
+    let newV = ctrl.value.toUpperCase();
+    if (ctrl.valid) {
+      if (newV.length === 6) {
+        newV = newV.substring(0, 3) + " " + newV.substring(3);
+      }
+    }
+    if (newV !== ctrl.value) {
+      ctrl.setValue(newV);
+    }
+  }
+
   tryToSignup() {
     if (this.isValidForSignup()) {
-      console.log('tryint to signup');
+      const tellAddressLater = this.signupForm.controls['choiceToProvideAddressLater'].value;
+      const tellBudgetLater  = this.signupForm.controls['choiceToProvideBudgetLater'].value;
+      if (tellAddressLater && tellBudgetLater) {
+        this.goBackToLogin();
+      } else {
+        const userProfile: UserProfile = {};
+        if (!tellAddressLater) {
+          userProfile.userAddress = {
+            addressLine1: this.addressForm.controls['line1'].value,
+            addressLine2: this.addressForm.controls['line2'].value,
+            city: this.addressForm.controls['city'].value,
+            provinceCode: this.addressForm.controls['province'].value,
+            postalCode: this.addressForm.controls['postalCode'].value,
+          };
+        }
+        if (!tellBudgetLater) {
+          let budgetRangeFromInK = 0;
+          let budgetRangeToInK = 1_000_000;
+          const budgetRange = this.budgetForm.controls['budgetRange'].value;
+          if (budgetRange === 'btw30and50k') {
+            [budgetRangeFromInK, budgetRangeToInK] = [30, 50];
+          } else if (budgetRange === 'btw50and100k') {
+            [budgetRangeFromInK, budgetRangeToInK] = [50, 100];
+          } else if (budgetRange === 'btw100and150k') {
+            [budgetRangeFromInK, budgetRangeToInK] = [100, 150];
+          } else if (budgetRange === 'btw150and200k') {
+            [budgetRangeFromInK, budgetRangeToInK] = [150, 200];
+          } else {
+            budgetRangeFromInK = 200;
+          }
+          userProfile.userFinance = {
+            budgetRangeFromInK,
+            budgetRangeToInK,
+          };
+        }
+        this.userAccountService.createProfile(1, userProfile).subscribe(created => {
+          this.goBackToLogin();
+        })
+      }
+
     } else {
       console.log('Invalid signup');
     }

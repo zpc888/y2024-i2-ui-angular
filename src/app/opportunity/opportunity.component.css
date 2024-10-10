@@ -1,0 +1,108 @@
+.i2-body {
+  padding: 0;
+  margin: 0;
+  position: fixed;
+  box-sizing: border-box;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+  display: grid;
+  grid-template-rows: auto 1fr;
+}
+.i2-header {
+  background-color: #7cd2ea;
+  height: 3rem;
+  display: grid;
+  padding-left: 10px;
+  padding-right: 10px;
+  grid-template-columns: auto auto;
+  align-items: center;
+  justify-content: space-between;
+}
+.i2-head1 {
+  font-family: Helvetica, Arial;
+  font-size: 20px;
+  font-weight: bold;
+}
+.i2-head2 {
+  display: flex;
+  flex-direction: row;
+  column-gap: 8px;
+}
+.i2-content-container {
+  padding: 10px 20px 30px 20px;
+  z-index: 5;
+  overflow-y: scroll;
+  height: calc(100vh - 3rem - 2rem - 3rem);      /* 4rem in case you have bottom bar */
+  scrollbar-width: none;       /* Firebox     */
+  -ms-overflow-style: none;    /* IE and Edge */
+}
+/* For Chrome, Safari and Opera */
+.i2-content-container::-webkit-scrollbar {
+  display: none;
+}
+
+.i2-footer {
+  background-color: #7cd2ea;
+  height: 2rem;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: row;
+  column-gap: 8px;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.6rem;
+}
+.i2-contact-label {
+  font-weight: bold;
+}
+.i2-search-criteria {
+  display: flex;
+  /*flex-direction: row;*/
+  /*column-gap: 40px;*/
+  flex-direction: column;
+}
+.i2-search-criteria-nested {
+  display: grid;
+  grid-template-columns: 200px 520px;
+  align-items: center;
+  column-gap: 10px;
+}
+.i2-input {
+  display: grid;
+  grid-template-columns: 250px 250px;
+  column-gap: 20px;
+}
+.i2-icon {
+  padding-left: 20px;
+  vertical-align: middle;
+}
+.i2-search-actions {
+  display: flex;
+  flex-direction: row;
+  column-gap: 30px;
+  align-items: center;
+  padding-left: 30px;
+  justify-content: flex-start;
+}
+.i2-card-header {
+  padding-bottom: 16px;
+}
+.i2-search-result {
+  margin-top: 30px;
+  border: 1px ridge lightgray;
+  border-radius: 5px;
+  padding: 20px 30px 20px 30px;
+  box-shadow: 0 4px 4px lightgray;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  column-gap: 20px;
+  row-gap: 20px;
+}
+.i2-warning {
+  font-size: xx-large;
+  color: darkred;
+}

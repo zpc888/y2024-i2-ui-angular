@@ -7,7 +7,17 @@
   row-gap: 50px;
 }
 
-.i2-login-form {
+.i2-join-us-header {
+  padding-right: 100px;
+  height: 105px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: x-large;
+  /*font-weight: bold;*/
+}
+
+.i2-join-us-form {
   width: 500px;
   border: 0.75px solid #D3D3D3;
   background: #D9D9D905;
@@ -20,26 +30,14 @@
   width: 100%;
 }
 
-.i2-full-width.i2-login-extra {
-  padding-top: 20px;
-  padding-bottom: 30px;
-}
-
-.i2-login-extra {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.i2-login-action {
+.i2-join-us-action {
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
 }
 
-.i2-login-extra a {
+.i2-new-user a {
   color: #0d87ab;
   text-decoration: underline;
 }

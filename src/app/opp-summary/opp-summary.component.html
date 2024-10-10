@@ -1,0 +1,18 @@
+<div class="i2-opp-panel">
+  <div class="i2-img">
+    <img class="images" [src]="pic" />
+  </div>
+  <div class="i2-info">
+    <div>{{opp!.type}}</div>
+    <div>{{opp!.name}}</div>
+    <div>Min Investment Amount: {{opp!.minInvestmentInK}}K</div>
+    <div class="i2-share-info">
+    <div>Required: {{opp!.numberOfInvestorsRequired}} / Filled: {{opp!.numberOfInvestorsFilled}}
+    </div>
+<!--    <div class="i2-my-invest" *ngIf="opp!.id % 2 != 3">100-->
+    <div class="i2-my-invest" *ngIf="opp!.id % 2 == 0">100
+      <span class="i2-tooltip">My Investment Shares</span>
+    </div>
+    </div>
+  </div>
+</div>

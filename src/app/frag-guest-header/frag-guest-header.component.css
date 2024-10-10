@@ -1,0 +1,16 @@
+.i2-home-header-row1 {
+  padding: 20px;
+  display: flex;
+  flex-direction: row;
+  column-gap: 20px;
+  justify-content: flex-end;
+}
+
+.i2-home-header-row2 {
+  padding-left: 30px;
+  padding-right: 30px;
+  display: flex;
+  flex-direction: row;
+  column-gap: 60px;
+}
+

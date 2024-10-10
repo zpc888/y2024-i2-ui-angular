@@ -1,0 +1,50 @@
+<div class="i2-login">
+  <mat-card class="i2-login-card">
+    <mat-card-header class="i2-center">
+      <mat-card-title class="i2-center">Login</mat-card-title>
+      <mat-card-subtitle class="i2-center">Property Investment</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content class="i2-login-content">
+      <form class="i2-login-form" #loginForm="ngForm">
+        <mat-form-field class="i2-full-width">
+          <mat-label>Email</mat-label>
+          <input type="email" matInput [formControl]="emailControl" placeholder="Ex. smith@example.com" />
+          @if (emailControl.hasError('email') && !emailControl.hasError('required')) {
+            <mat-error>Please enter a valid email address</mat-error>
+          }
+          @if (emailControl.hasError('required')) {
+            <mat-error>Email is <strong>required</strong></mat-error>
+          }
+        </mat-form-field>
+        <mat-form-field class="i2-full-width">
+          <mat-label>Password</mat-label>
+          <input type="password" matInput [formControl]="passwordControl" />
+          @if (passwordControl.hasError('minlength') && !passwordControl.hasError('required')) {
+            <mat-error>Password must be at least {{minLenForPassword}} characters</mat-error>
+          }
+          @if (passwordControl.hasError('required')) {
+            <mat-error>Password is <strong>required</strong></mat-error>
+          }
+        </mat-form-field>
+      </form>
+    </mat-card-content>
+<!--    <mat-divider></mat-divider>-->
+    <mat-card-actions class="i2-actions">
+      <div class="i2-login-action">
+      <button mat-flat-button color="primary"
+              [disabled]="emailControl.status === 'INVALID' || passwordControl.status === 'INVALID'"
+              (click)="tryToLogin()"
+      >Login</button>
+        <div class="i2-action-annotation">An existing User Already</div>
+      </div>
+      <div class="i2-login-action">
+      <button mat-flat-button color="warn" (click)="tryToSignup()">Sign Up</button>
+        <div class="i2-action-annotation">Want to be a new user</div>
+      </div>
+      <div class="i2-login-action">
+      <button mat-stroked-button (click)="justBrowse()">Just Browsing</button>
+        <div class="i2-action-annotation">Haven't decided to be a user yet</div>
+      </div>
+    </mat-card-actions>
+  </mat-card>
+</div>
